@@ -22,6 +22,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('orders', OrderController::class);
+    Route::put('/orders/{order}/return', [OrderController::class, 'returnAndDelete'])->name('returnAndDelete');
+    Route::get('orders/products', [OrderController::class, 'getProducts'])->name('orders.products');
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');

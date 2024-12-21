@@ -61,6 +61,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'image' => $image_path,
             'barcode' => $request->barcode,
+            'main_price' => $request->main_price,
             'price' => $request->price,
             'quantity' => $request->quantity,
             'status' => $request->status
@@ -106,6 +107,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->barcode = $request->barcode;
+        $product->main_price = $request->main_price;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
         $product->status = $request->status;
