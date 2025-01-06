@@ -207,7 +207,7 @@ const Cart = () => {
                             ))}
                         </select>
                     </div>
-                </div>
+                </div> 
                 <div className="user-cart" ref={contentRef}> {/* إرفاق المرجع هنا */}
                     <div className="card">
                         <table className="table table-striped">
