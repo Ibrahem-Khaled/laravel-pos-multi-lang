@@ -26,6 +26,7 @@
         "@fortawesome/fontawesome-free": "^6.2.0",
         "admin-lte": "^3.2.0",
         "dateformat": "^5.0.3",
+        "react-to-print": "^3.0.4",
         "sweetalert2": "^11.4.37"
     }
 }
