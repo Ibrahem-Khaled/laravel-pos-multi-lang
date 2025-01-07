@@ -211,19 +211,42 @@ const Cart = () => {
                 </div>
                 <div className="user-cart" ref={contentRef}>
                     <div className="card">
-                        <h4 style={{ textAlign: "center" }}>{translations["store_name"] || "Cutting Store"}</h4>
+                        <h4 style={{ textAlign: "center" }}>{translations["store_name"] || "Cutting"}</h4>
+                        <div style={{ textAlign: "center", marginBottom: "10px" }}>
+                            <p>
+                                <strong>{translations["invoice_number"] || "Invoice Number"}:</strong> #12345
+                            </p>
+                            <p>
+                                <strong>{translations["location_number"] || "Location"}:</strong> Branch 1
+                            </p>
+                            <p>
+                                <strong>{translations["address"] || "Address"}:</strong> 123 Main Street, City
+                            </p>
+                            <p>
+                                <strong>{translations["order_date"] || "Order Date"}:</strong>{" "}
+                                {new Date().toLocaleDateString()}
+                            </p>
+                        </div>
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>{translations["product_name"]}</th>
-                                    <th>{translations["quantity"]}</th>
-                                    <th className="text-right">{translations["price"]}</th>
+                                    <th>{translations["product_name:"] || "Product Name"}</th>
+                                    <th>{translations["quantity:"] || "Quantity"}</th>
+                                    <th className="text-right">{translations["price:"] || "Price"}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {cart.map((item) => (
                                     <tr key={item.id}>
-                                        <td>{item.name}</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-danger btn-sm mr-2"
+                                                onClick={() => handleClickDelete(item.id)}
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                            {item.name}
+                                        </td>
                                         <td>{item.pivot.quantity}</td>
                                         <td className="text-right">
                                             {window.APP.currency_symbol} {(item.price * item.pivot.quantity).toFixed(2)}
@@ -232,15 +255,16 @@ const Cart = () => {
                                 ))}
                             </tbody>
                         </table>
-                        <div className="total-section">
-                            <strong>{translations["total"]}: </strong>
+                        <div className="total-section text-center">
+                            <strong>{translations["total:"] || "Total"}: </strong>
                             {window.APP.currency_symbol} {getTotal(cart)}
                         </div>
-                        <div className="footer-message">
-                            <p>{translations["return_policy"] || "يمكنك الاسترجاع خلال 14 يومًا."}</p>
+                        <div className="footer-message text-center">
+                            <p>{translations["return_policy"] || "You can exchange and return within 14 days."}</p>
                         </div>
                     </div>
                 </div>
+
 
                 <div className="row">
                     <div className="col">{translations["total"]}:</div>

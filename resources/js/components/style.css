@@ -4,6 +4,10 @@
         padding: 0;
     }
 
+    .user-cart div {
+        margin-bottom: 5px;
+    }
+
     .user-cart {
         width: 80mm;
         /* عرض الإيصال */
