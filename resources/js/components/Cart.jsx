@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { sum } from "lodash";
 import { useReactToPrint } from "react-to-print";
+import './style.css';
 
 const Cart = () => {
     const [cart, setCart] = useState([]);
@@ -208,9 +209,10 @@ const Cart = () => {
                         </select>
                     </div>
                 </div>
-                <div className="user-cart" ref={contentRef}> {/* إرفاق المرجع هنا */}
+                <div className="user-cart" ref={contentRef}>
                     <div className="card">
-                        <table className="table table-striped">
+                        <h4 style={{ textAlign: "center" }}>{translations["store_name"] || "Cutting Store"}</h4>
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th>{translations["product_name"]}</th>
@@ -222,22 +224,7 @@ const Cart = () => {
                                 {cart.map((item) => (
                                     <tr key={item.id}>
                                         <td>{item.name}</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                className="form-control form-control-sm qty"
-                                                value={item.pivot.quantity}
-                                                onChange={(e) =>
-                                                    handleChangeQty(item.id, e.target.value)
-                                                }
-                                            />
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => handleClickDelete(item.id)}
-                                            >
-                                                <i className="fas fa-trash"></i>
-                                            </button>
-                                        </td>
+                                        <td>{item.pivot.quantity}</td>
                                         <td className="text-right">
                                             {window.APP.currency_symbol} {(item.price * item.pivot.quantity).toFixed(2)}
                                         </td>
@@ -245,8 +232,16 @@ const Cart = () => {
                                 ))}
                             </tbody>
                         </table>
+                        <div className="total-section">
+                            <strong>{translations["total"]}: </strong>
+                            {window.APP.currency_symbol} {getTotal(cart)}
+                        </div>
+                        <div className="footer-message">
+                            <p>{translations["return_policy"] || "يمكنك الاسترجاع خلال 14 يومًا."}</p>
+                        </div>
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col">{translations["total"]}:</div>
                     <div className="col text-right">

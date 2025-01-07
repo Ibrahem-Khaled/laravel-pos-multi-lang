@@ -1,0 +1,40 @@
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .user-cart {
+        width: 80mm;
+        /* عرض الإيصال */
+        font-size: 12px;
+        line-height: 1.2;
+    }
+
+    .user-cart .table {
+        width: 100%;
+    }
+
+    .user-cart .table th,
+    .user-cart .table td {
+        text-align: left;
+        padding: 5px;
+    }
+
+    .user-cart .text-right {
+        text-align: right;
+    }
+
+    .user-cart .total-section,
+    .user-cart .footer-message {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    /* إخفاء العناصر غير المطلوبة للطباعة */
+    .btn,
+    .form-control,
+    .order-product {
+        display: none !important;
+    }
+}
