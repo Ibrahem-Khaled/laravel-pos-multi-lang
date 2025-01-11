@@ -11,7 +11,9 @@ class CartController extends Controller
     {
         if ($request->wantsJson()) {
             return response(
-                $request->user()->cart()->get()
+                [
+                    'cart' => $request->user()->cart()->get(),
+                ]
             );
         }
         return view('cart.index');

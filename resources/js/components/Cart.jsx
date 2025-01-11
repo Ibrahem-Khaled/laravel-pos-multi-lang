@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom';
 import axios from "axios";
 import Swal from "sweetalert2";
-import { sum } from "lodash";
+import { random, sum } from "lodash";
 import { useReactToPrint } from "react-to-print";
 import './style.css';
 
@@ -13,6 +13,7 @@ const Cart = () => {
     const [barcode, setBarcode] = useState("");
     const [search, setSearch] = useState("");
     const [customerId, setCustomerId] = useState("");
+    const [systemInvoiceNumber, setSystemInvoiceNumber] = useState("");
     const [translations, setTranslations] = useState({});
 
     // إنشاء مرجع لعنصر الطباعة
@@ -60,7 +61,8 @@ const Cart = () => {
     const loadCart = async () => {
         try {
             const { data } = await axios.get("/admin/cart");
-            setCart(data);
+            setCart(data.cart);
+            setSystemInvoiceNumber(random(1000, 9999));
         } catch (error) {
             console.error("Error loading cart:", error);
         }
@@ -209,30 +211,38 @@ const Cart = () => {
                         </select>
                     </div>
                 </div>
+
                 <div className="user-cart" ref={contentRef}>
                     <div className="card">
-                        <h4 style={{ textAlign: "center" }}>{translations["store_name"] || "Cutting"}</h4>
+                        {/* اسم المحل */}
+                        <h2 style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold" }}>
+                            {translations["store_name"] || "Cutting"}
+                        </h2>
+
+                        {/* تفاصيل الفاتورة */}
                         <div style={{ textAlign: "center", marginBottom: "10px" }}>
                             <p>
-                                <strong>{translations["invoice_number"] || "Invoice Number"}:</strong> #12345
+                                <strong>{translations["invoice_number"] || "رقم الفاتورة"}:</strong> #{systemInvoiceNumber}
+                            </p>
+                            {/* <p>
+                                <strong>{translations["location_number"] || "الفرع"}:</strong> الفرع 1
+                            </p> */}
+                            <p>
+                                <strong>{translations["address"] || "العنوان"}:</strong> ٨٨ شارع عثمان بن عفان ميدان تريومف
                             </p>
                             <p>
-                                <strong>{translations["location_number"] || "Location"}:</strong> Branch 1
-                            </p>
-                            <p>
-                                <strong>{translations["address"] || "Address"}:</strong> 123 Main Street, City
-                            </p>
-                            <p>
-                                <strong>{translations["order_date"] || "Order Date"}:</strong>{" "}
-                                {new Date().toLocaleDateString()}
+                                <strong>{translations["order_date"] || "تاريخ الطلب"}:</strong>{" "}
+                                {new Date().toLocaleDateString("ar-EG")}
                             </p>
                         </div>
+
+                        {/* جدول المنتجات */}
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>{translations["product_name:"] || "Product Name"}</th>
-                                    <th>{translations["quantity:"] || "Quantity"}</th>
-                                    <th className="text-right">{translations["price:"] || "Price"}</th>
+                                    <th>{translations["product_name:"] || "اسم المنتج"}</th>
+                                    <th>{translations["quantity:"] || "الكمية"}</th>
+                                    <th className="text-right">{translations["price:"] || "السعر"}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -255,12 +265,16 @@ const Cart = () => {
                                 ))}
                             </tbody>
                         </table>
-                        <div className="total-section text-center">
-                            <strong>{translations["total:"] || "Total"}: </strong>
+
+                        {/* الإجمالي */}
+                        <div className="total-section text-center" style={{ marginTop: "15px", fontSize: "18px" }}>
+                            <strong>{translations["total:"] || "الإجمالي"}: </strong>
                             {window.APP.currency_symbol} {getTotal(cart)}
                         </div>
-                        <div className="footer-message text-center">
-                            <p>{translations["return_policy"] || "You can exchange and return within 14 days."}</p>
+
+                        {/* رسالة الفاتورة */}
+                        <div className="footer-message text-center mt-2">
+                            <p>{translations["return_policy"] || "يمكنك الاستبدال والإرجاع خلال 14 يومًا."}</p>
                         </div>
                     </div>
                 </div>
