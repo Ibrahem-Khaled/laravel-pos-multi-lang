@@ -3,56 +3,67 @@
 @section('title', __('product.Product_List'))
 @section('content-header', __('product.Product_List'))
 @section('content-actions')
-<a href="{{route('products.create')}}" class="btn btn-primary">{{ __('product.Create_Product') }}</a>
+    <a href="{{ route('products.create') }}" class="btn btn-primary">{{ __('product.Create_Product') }}</a>
 @endsection
 @section('css')
-<link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
 @endsection
 @section('content')
-<div class="card product-list">
-    <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>{{ __('product.ID') }}</th>
-                    <th>{{ __('product.Name') }}</th>
-                    <th>{{ __('product.Image') }}</th>
-                    <th>{{ __('product.Barcode') }}</th>
-                    <th>{{ __('product.main_price') }}</th>
-                    <th>{{ __('product.Price') }}</th>
-                    <th>{{ __('product.Quantity') }}</th>
-                    <th>{{ __('product.Status') }}</th>
-                    <th>{{ __('product.Created_At') }}</th>
-                    <th>{{ __('product.Updated_At') }}</th>
-                    <th>{{ __('product.Actions') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($products as $product)
-                <tr>
-                    <td>{{$product->id}}</td>
-                    <td>{{$product->name}}</td>
-                    <td><img class="product-img" src="{{ Storage::url($product->image) }}" alt=""></td>
-                    <td>{{$product->barcode}}</td>
-                    <td>{{$product?->main_price}}</td>
-                    <td>{{$product->price}}</td>
-                    <td>{{$product->quantity}}</td>
-                    <td>
-                        <span class="right badge badge-{{ $product->status ? 'success' : 'danger' }}">{{$product->status ? __('common.Active') : __('common.Inactive') }}</span>
-                    </td>
-                    <td>{{$product->created_at}}</td>
-                    <td>{{$product->updated_at}}</td>
-                    <td>
-                        <a href="{{ route('products.edit', $product) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-delete" data-url="{{route('products.destroy', $product)}}"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{ $products->render() }}
+    <div class="card product-list">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{{ __('product.ID') }}</th>
+                        <th>{{ __('product.Name') }}</th>
+                        <th>{{ __('product.Image') }}</th>
+                        <th>{{ __('product.Barcode') }}</th>
+                        <th>{{ __('product.main_price') }}</th>
+                        <th>{{ __('product.Price') }}</th>
+                        <th>{{ __('product.Quantity') }}</th>
+                        <th>{{ __('product.Status') }}</th>
+                        <th>{{ __('product.Created_At') }}</th>
+                        <th>{{ __('product.Updated_At') }}</th>
+                        <th>{{ __('product.Actions') }}</th>
+                        <th>{{ __('product.Print_Barcode') }}</th> <!-- New Column -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($products as $product)
+                        <tr>
+                            <td>{{ $product->id }}</td>
+                            <td>{{ $product->name }}</td>
+                            <td><img class="product-img" src="{{ Storage::url($product->image) }}" alt=""></td>
+                            <td>{{ $product->barcode }}</td>
+                            <td>{{ $product?->main_price }}</td>
+                            <td>{{ $product->price }}</td>
+                            <td>{{ $product->quantity }}</td>
+                            <td>
+                                <span
+                                    class="right badge badge-{{ $product->status ? 'success' : 'danger' }}">{{ $product->status ? __('common.Active') : __('common.Inactive') }}</span>
+                            </td>
+                            <td>{{ $product->created_at }}</td>
+                            <td>{{ $product->updated_at }}</td>
+                            <td>
+                                <a href="{{ route('products.edit', $product) }}" class="btn btn-primary"><i
+                                        class="fas fa-edit"></i></a>
+                                <button class="btn btn-danger btn-delete"
+                                    data-url="{{ route('products.destroy', $product) }}"><i
+                                        class="fas fa-trash"></i></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-info btn-print-barcode" data-barcode="{{ $product->barcode }}"
+                                    data-name="{{ $product->name }}">
+                                    <i class="fas fa-print"></i> {{ __('product.Print_Barcode') }}
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $products->render() }}
+        </div>
     </div>
-</div>
 @endsection
 
 @section('js')
@@ -90,7 +101,27 @@
                     }
                 });
             });
+
+            // Print Barcode Functionality
+            $(document).on('click', '.btn-print-barcode', function() {
+                var barcode = $(this).data('barcode');
+                var name = $(this).data('name');
+
+                var printWindow = window.open('', '', 'height=400,width=600');
+                printWindow.document.write('<html><head><title>Print Barcode</title>');
+                printWindow.document.write('<style>body { font-family: Arial, sans-serif; }</style>');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<h2>' + name + '</h2>');
+                printWindow.document.write('<p>Barcode: ' + barcode + '</p>');
+                printWindow.document.write(
+                    '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
+                    );
+                printWindow.document.write('<svg id="barcode"></svg>');
+                printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode + '");<\/script>');
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            });
         });
     </script>
-
 @endsection
