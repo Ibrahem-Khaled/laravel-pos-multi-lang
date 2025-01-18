@@ -115,9 +115,10 @@
                 printWindow.document.write('<p>Barcode: ' + barcode + '</p>');
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
-                    );
+                );
                 printWindow.document.write('<svg id="barcode"></svg>');
-                printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode + '");<\/script>');
+                printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
+                    '", { width: 2, height: 50 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
