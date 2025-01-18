@@ -117,14 +117,14 @@
                 var price = $(this).closest('tr').find('td:eq(5)')
             .text(); // الحصول على السعر من العمود المناسب
 
-                var printWindow = window.open('', '', 'height=400,width=600');
+                var printWindow = window.open('', '', 'height=200,width=600');
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
-                    '<style>body { font-family: Arial, sans-serif; text-align: center; } @media print { .barcode-svg { width: 80px; height: auto; margin: 0 auto; } h2, p { margin: 5px 0; } }</style>'
+                    '<style>body { font-family: Arial, sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; } @media print { .barcode-svg { width: 80px; height: auto; margin: 10px auto; } h2, p { margin: 5px 0; font-size: 12px; } }</style>'
                 );
                 printWindow.document.write('</head><body>');
-                printWindow.document.write('<h2 style="font-size: 10px;">' + name + '</h2>');
-                printWindow.document.write('<p style="font-size: 10px;">Price: ' + price +
+                printWindow.document.write('<h2 style="font-size: 12px;">' + name + '</h2>');
+                printWindow.document.write('<p style="font-size: 12px;">Price: ' + price +
                 '</p>'); // عرض السعر بدلًا من الباركود
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
