@@ -7,14 +7,6 @@
 @endsection
 @section('css')
     <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
-    <style>
-        @media print {
-            .product-img {
-                width: 100px !important;
-                height: auto !important;
-            }
-        }
-    </style>
 @endsection
 @section('content')
     <div class="card product-list">
@@ -120,18 +112,18 @@
                 var printWindow = window.open('', '', '');
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
-                    '<style>body { font-family: Arial, sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; } @media print { .barcode-svg { width: 80px; height: auto; } }</style>'
+                    '<style>body { font-family: Arial, sans-serif;  flex-direction: column;} @media print { .barcode-svg { width: 80px; height: auto; } }</style>'
                 );
                 printWindow.document.write('</head><body>');
-                printWindow.document.write('<h2 style="font-size: 12px;">' + name + '</h2>');
-                printWindow.document.write('<p style="font-size: 12px;">Price: ' + price +
+                printWindow.document.write('<h2 style="font-size: 10px;">' + name + '</h2>');
+                printWindow.document.write('<p style="font-size: 10px;">Price: ' + price +
                 '</p>'); // عرض السعر بدلًا من الباركود
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
                 printWindow.document.write('<svg id="barcode" class="barcode-svg"></svg>');
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 1, height: 20, fontSize: 10 });<\/script>');
+                    '", { width: 1, height: 15, fontSize: 10 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
