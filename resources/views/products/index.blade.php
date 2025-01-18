@@ -7,6 +7,14 @@
 @endsection
 @section('css')
     <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
+    <style>
+        @media print {
+            .product-img {
+                width: 100px !important;
+                height: auto !important;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="card product-list">
@@ -109,16 +117,18 @@
 
                 var printWindow = window.open('', '', 'height=400,width=600');
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
-                printWindow.document.write('<style>body { font-family: Arial, sans-serif; }</style>');
+                printWindow.document.write(
+                    '<style>body { font-family: Arial, sans-serif; } @media print { .barcode-svg { width: 100px; height: auto; } }</style>'
+                );
                 printWindow.document.write('</head><body>');
                 printWindow.document.write('<h2>' + name + '</h2>');
                 printWindow.document.write('<p>Barcode: ' + barcode + '</p>');
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
-                printWindow.document.write('<svg id="barcode"></svg>');
+                printWindow.document.write('<svg id="barcode" class="barcode-svg"></svg>');
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 2, height: 50 });<\/script>');
+                    '", { width: 1, height: 40, fontSize: 10 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
