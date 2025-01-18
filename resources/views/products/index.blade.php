@@ -117,10 +117,10 @@
                 var price = $(this).closest('tr').find('td:eq(5)')
             .text(); // الحصول على السعر من العمود المناسب
 
-                var printWindow = window.open('', '', 'height=40,width=700');
+                var printWindow = window.open('', '', '');
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
-                    '<style>body { font-family: Arial, sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;margin: 0 0 0 10px; } @media print { .barcode-svg { width: 80px; height: auto; } h2, p { margin: 1px 0; font-size: 12px; } }</style>'
+                    '<style>body { font-family: Arial, sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; } @media print { .barcode-svg { width: 80px; height: auto; } }</style>'
                 );
                 printWindow.document.write('</head><body>');
                 printWindow.document.write('<h2 style="font-size: 12px;">' + name + '</h2>');
