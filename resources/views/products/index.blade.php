@@ -114,21 +114,24 @@
             $(document).on('click', '.btn-print-barcode', function() {
                 var barcode = $(this).data('barcode');
                 var name = $(this).data('name');
+                var price = $(this).closest('tr').find('td:eq(5)')
+            .text(); // الحصول على السعر من العمود المناسب
 
                 var printWindow = window.open('', '', 'height=400,width=600');
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
-                    '<style>body { font-family: Arial, sans-serif; } @media print { .barcode-svg { width: 50px; height: auto; } }</style>'
+                    '<style>body { font-family: Arial, sans-serif; text-align: center; } @media print { .barcode-svg { width: 80px; height: auto; margin: 0 auto; } h2, p { margin: 5px 0; } }</style>'
                 );
                 printWindow.document.write('</head><body>');
-                printWindow.document.write('<h2 style="font-size: 12px;">' + name + '</h2>');
-                printWindow.document.write('<p style="font-size: 10px;">Barcode: ' + barcode + '</p>');
+                printWindow.document.write('<h2 style="font-size: 14px;">' + name + '</h2>');
+                printWindow.document.write('<p style="font-size: 12px;">Price: ' + price +
+                '</p>'); // عرض السعر بدلًا من الباركود
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
                 printWindow.document.write('<svg id="barcode" class="barcode-svg"></svg>');
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 0.5, height: 20, fontSize: 8 });<\/script>');
+                    '", { width: 1, height: 40, fontSize: 12 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
