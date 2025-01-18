@@ -106,49 +106,27 @@
             $(document).on('click', '.btn-print-barcode', function() {
                 var barcode = $(this).data('barcode');
                 var name = $(this).data('name');
-                var price = $(this).closest('tr').find('td:eq(5)').text(); // الحصول على السعر من العمود المناسب
+                var price = $(this).closest('tr').find('td:eq(5)')
+            .text(); // الحصول على السعر من العمود المناسب
 
-                // إنشاء نافذة جديدة للتحكم في الحجم
-                var controlWindow = window.open('', '', 'width=400,height=300');
-                controlWindow.document.write('<html><head><title>Control Barcode Size</title>');
-                controlWindow.document.write(
-                    '<style>body { font-family: Arial, sans-serif; text-align: center; padding: 20px; } .preview { margin: 20px 0; }</style>'
+                var printWindow = window.open('', '', 'width=300,height=200');
+                printWindow.document.write('<html><head><title>Print Barcode</title>');
+                printWindow.document.write(
+                    '<style>body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 10px; } @media print { .barcode-svg { width: 50px; height: auto; } h2, p { margin: 2px 0; font-size: 8px; } }</style>'
                 );
-                controlWindow.document.write('</head><body>');
-                controlWindow.document.write('<h2>Control Barcode Size</h2>');
-                controlWindow.document.write('<p>Adjust the size of the barcode:</p>');
-                controlWindow.document.write('<input type="range" id="sizeControl" min="0.5" max="3" step="0.1" value="1">');
-                controlWindow.document.write('<div class="preview"><svg id="barcodePreview"></svg></div>');
-                controlWindow.document.write('<button id="printButton">Print Barcode</button>');
-                controlWindow.document.write(
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<h2 style="font-size: 8px;">' + name + '</h2>');
+                printWindow.document.write('<p style="font-size: 8px;">Price: ' + price +
+                '</p>'); // عرض السعر بدلًا من الباركود
+                printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
-                controlWindow.document.write('<script>');
-                controlWindow.document.write('var sizeControl = document.getElementById("sizeControl");');
-                controlWindow.document.write('var barcodePreview = document.getElementById("barcodePreview");');
-                controlWindow.document.write('JsBarcode(barcodePreview, "' + barcode + '", { width: 1, height: 20, fontSize: 10 });');
-                controlWindow.document.write('sizeControl.addEventListener("input", function() {');
-                controlWindow.document.write('    var size = parseFloat(sizeControl.value);');
-                controlWindow.document.write('    barcodePreview.setAttribute("width", size * 100);');
-                controlWindow.document.write('    barcodePreview.setAttribute("height", size * 20);');
-                controlWindow.document.write('});');
-                controlWindow.document.write('document.getElementById("printButton").addEventListener("click", function() {');
-                controlWindow.document.write('    var size = parseFloat(sizeControl.value);');
-                controlWindow.document.write('    var printWindow = window.open("", "", "width=600,height=400");');
-                controlWindow.document.write('    printWindow.document.write(\'<html><head><title>Print Barcode</title>\');');
-                controlWindow.document.write('    printWindow.document.write(\'<style>body { font-family: Arial, sans-serif; text-align: center; }</style>\');');
-                controlWindow.document.write('    printWindow.document.write(\'</head><body>\');');
-                controlWindow.document.write('    printWindow.document.write(\'<h2 style="font-size: 12px;">' + name + '</h2>\');');
-                controlWindow.document.write('    printWindow.document.write(\'<p style="font-size: 12px;">Price: ' + price + '</p>\');');
-                controlWindow.document.write('    printWindow.document.write(\'<svg id="barcode"></svg>\');');
-                controlWindow.document.write('    printWindow.document.write(\'<script>JsBarcode("#barcode", "' + barcode + '", { width: \' + size + \', height: 20, fontSize: 10 });<\/script>\');');
-                controlWindow.document.write('    printWindow.document.write(\'</body></html>\');');
-                controlWindow.document.write('    printWindow.document.close();');
-                controlWindow.document.write('    printWindow.print();');
-                controlWindow.document.write('});');
-                controlWindow.document.write('</script>');
-                controlWindow.document.write('</body></html>');
-                controlWindow.document.close();
+                printWindow.document.write('<svg id="barcode" class="barcode-svg"></svg>');
+                printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
+                    '", { width: 0.5, height: 10, fontSize: 8 });<\/script>');
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
             });
         });
     </script>
