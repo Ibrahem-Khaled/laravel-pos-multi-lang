@@ -112,11 +112,12 @@
                 var printWindow = window.open('', '', 'width=400,height=250');
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
-                    '<style>body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 10px; } @media print { .barcode-svg { width: 100%; height: auto; } h2, p { margin: 2px 0; font-size: 10px; } }</style>'
+                    '<style>body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; } @media print { .barcode-svg { width: 100%; height: auto; } h2, p { margin: 2px 0; font-size: 10px; } }</style>'
                 );
-                printWindow.document.write('</head><body>');
-                printWindow.document.write('<h2 style="font-size: 10px;">' + name + '</h2>');
-                printWindow.document.write('<p style="font-size: 10px;">Price: ' + price + '</p>');
+                printWindow.document.write('</head><body style="margin: 0; padding: 0;">');
+                printWindow.document.write('<h2 style="font-size: 10px; margin: 0;">' + name + '</h2>');
+                printWindow.document.write('<p style="font-size: 10px; margin: 0;">Price: ' + price +
+                    '</p>');
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
