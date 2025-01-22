@@ -102,17 +102,19 @@
                 });
             });
 
+            // Print Barcode Functionality
             $(document).on('click', '.btn-print-barcode', function() {
                 var barcode = $(this).data('barcode');
                 var name = $(this).data('name');
                 var price = $(this).closest('tr').find('td:eq(5)')
-            .text(); // الحصول على السعر من العمود المناسب
+                    .text(); // الحصول على السعر من العمود المناسب
 
-                var printWindow = window.open('', '', 'width=400,height=250');
+                var printWindow = window.open('', '',
+                'width=40mm,height=20mm'); // أبعاد تناسب طابعة الباركود
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
                     `<style>
-            @page { margin: 0; }
+            @page { margin: 0; } /* إزالة الهوامش الافتراضية */
             body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
             @media print {
                 .barcode-svg { width: 100%; height: auto; }
