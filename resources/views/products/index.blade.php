@@ -103,39 +103,60 @@
             });
 
             // Print Barcode Functionality
+            // Print Barcode Functionality
             $(document).on('click', '.btn-print-barcode', function() {
                 var barcode = $(this).data('barcode');
                 var name = $(this).data('name');
                 var price = $(this).closest('tr').find('td:eq(5)')
-                    .text(); // الحصول على السعر من العمود المناسب
+            .text(); // الحصول على السعر من العمود المناسب
 
-                var printWindow = window.open('', '',
-                'width=40mm,height=20mm'); // أبعاد تناسب طابعة الباركود
+                // فتح نافذة الطباعة بمقاسات مناسبة
+                var printWindow = window.open('', '', 'width=400,height=200'); // الأبعاد بوحدة البكسل
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
                     `<style>
             @page { margin: 0; } /* إزالة الهوامش الافتراضية */
-            body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
-            @media print {
-                .barcode-svg { width: 100%; height: auto; }
-                h2, p { margin: 2px 0; font-size: 10px; }
+            body { 
+                font-family: Arial, sans-serif; 
+                text-align: center; 
+                margin: 0; 
+                padding: 0;
+                width: 40mm; 
+                height: 20mm; 
+            }
+            .barcode-container {
+                width: 100%; 
+                height: 100%; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+                align-items: center; 
+            }
+            h2, p { 
+                margin: 0; 
+                font-size: 8px; /* تصغير النص ليتناسب مع الحجم */
+            }
+            svg {
+                margin-top: 5px; 
             }
         </style>`
                 );
-                printWindow.document.write('</head><body style="margin: 0; padding: 0;">');
-                printWindow.document.write('<h2 style="font-size: 10px; margin: 0;">' + name + '</h2>');
-                printWindow.document.write('<p style="font-size: 10px; margin: 0;">Price: ' + price +
-                    '</p>');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<div class="barcode-container">');
+                printWindow.document.write('<h2>' + name + '</h2>');
+                printWindow.document.write('<p>Price: ' + price + '</p>');
+                printWindow.document.write('<svg id="barcode"></svg>');
+                printWindow.document.write('</div>');
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
-                printWindow.document.write('<svg id="barcode" class="barcode-svg"></svg>');
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 1, height: 30, fontSize: 10 });<\/script>');
+                    '", { width: 1, height: 30, fontSize: 8 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
             });
+
         });
     </script>
 @endsection
