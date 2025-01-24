@@ -110,15 +110,15 @@
                     .text(); // الحصول على السعر من العمود المناسب
 
                 var printWindow = window.open('', '',
-                'width=40mm,height=20mm'); // أبعاد تناسب طابعة الباركود
-                printWindow.document.write('<html><head><title>Print Barcode</title>');
+                'width=40mm,height=15mm'); // أبعاد تناسب طابعة الباركود
+                printWindow.document.write('<html><head>');
                 printWindow.document.write(
                     `<style>
-            @page { margin: 0; } /* إزالة الهوامش الافتراضية */
+            @page { margin: 0; }
             body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
             @media print {
                 .barcode-svg { width: 100%; height: auto; }
-                h2, p { margin: 2px 0; font-size: 10px; }
+                h2, p { margin: 1px 0; font-size: 10px; }
             }
         </style>`
                 );
@@ -131,7 +131,7 @@
                 );
                 printWindow.document.write('<svg id="barcode" class="barcode-svg"></svg>');
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 1, height: 30, fontSize: 10 });<\/script>');
+                    '", { width: 1, height: 22, fontSize: 9 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
