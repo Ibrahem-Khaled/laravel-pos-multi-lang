@@ -70,6 +70,7 @@
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script type="module">
         $(document).ready(function() {
+            // حذف المنتج باستخدام SweetAlert2
             $(document).on('click', '.btn-delete', function() {
                 var $this = $(this);
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -102,44 +103,49 @@
                 });
             });
 
-            // Print Barcode Functionality
-            // Print Barcode Functionality
+            // طباعة الباركود
             $(document).on('click', '.btn-print-barcode', function() {
                 var barcode = $(this).data('barcode');
                 var name = $(this).data('name');
                 var price = $(this).closest('tr').find('td:eq(5)')
             .text(); // الحصول على السعر من العمود المناسب
 
-                // فتح نافذة الطباعة بمقاسات مناسبة
-                var printWindow = window.open('', '', 'width=400,height=100'); // الأبعاد بوحدة البكسل
+                // فتح نافذة الطباعة
+                var printWindow = window.open('', '', 'width=400,height=250'); // أبعاد النافذة
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
                     `<style>
-            @page { margin-left: 10px; } /* إزالة الهوامش الافتراضية */
-            body { 
-                font-family: Arial, sans-serif; 
-                text-align: center; 
-                margin: 0; 
-                padding: 0;
-                width: 40mm; 
-                height: 25mm; 
-            }
-            .barcode-container {
-                width: 100%; 
-                height: 100%; 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: center; 
-                align-items: center; 
-            }
-            h2, p { 
-                margin: 0; 
-                font-size: 8px; /* تصغير النص ليتناسب مع الحجم */
-            }
-            svg {
-                margin-top: 0; 
-            }
-        </style>`
+                        @page { margin: 0; } /* إزالة الهوامش الافتراضية */
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            text-align: center; 
+                            margin: 0; 
+                            padding: 0;
+                            width: 40mm; 
+                            height: 25mm; 
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                        .barcode-container {
+                            width: 100%; 
+                            height: 100%; 
+                            display: flex; 
+                            flex-direction: column; 
+                            justify-content: center; 
+                            align-items: center; 
+                            text-align: center;
+                            box-sizing: border-box;
+                            padding: 2mm; /* إضافة مسافة داخلية */
+                        }
+                        h2, p { 
+                            margin: 0; 
+                            font-size: 8px; /* تصغير النص ليتناسب مع الحجم */
+                        }
+                        svg {
+                            margin-top: 3px; 
+                        }
+                    </style>`
                 );
                 printWindow.document.write('</head><body>');
                 printWindow.document.write('<div class="barcode-container">');
@@ -156,7 +162,7 @@
                 printWindow.document.close();
                 printWindow.print();
             });
-
         });
     </script>
+
 @endsection
