@@ -122,7 +122,7 @@
                 margin: 0; 
                 padding: 0;
                 width: 40mm; 
-                height: 20mm; 
+                height: 25mm; 
             }
             .barcode-container {
                 width: 100%; 
@@ -137,7 +137,7 @@
                 font-size: 8px; /* تصغير النص ليتناسب مع الحجم */
             }
             svg {
-                margin-top: 5px; 
+                margin-top: 0; 
             }
         </style>`
                 );
