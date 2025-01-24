@@ -107,7 +107,7 @@
                 var barcode = $(this).data('barcode');
                 var name = $(this).data('name');
                 var price = $(this).closest('tr').find('td:eq(5)')
-            .text(); // الحصول على السعر من العمود المناسب
+                    .text(); // الحصول على السعر من العمود المناسب
 
                 // فتح نافذة الطباعة بمقاسات مناسبة
                 var printWindow = window.open('', '', 'width=400,height=200'); // الأبعاد بوحدة البكسل
@@ -121,7 +121,7 @@
                 margin: 0; 
                 padding: 0;
                 width: 40mm; 
-                height: 20mm; 
+                height: 25mm; 
             }
             .barcode-container {
                 width: 100%; 
@@ -136,7 +136,7 @@
                 font-size: 8px; /* تصغير النص ليتناسب مع الحجم */
             }
             svg {
-                margin-top: 5px; 
+                margin-top: 1px; 
             }
         </style>`
                 );
@@ -150,7 +150,7 @@
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 1, height: 30, fontSize: 8 });<\/script>');
+                    '", { width: 1, height: 25, fontSize: 10 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
