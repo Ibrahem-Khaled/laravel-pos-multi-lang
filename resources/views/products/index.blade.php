@@ -122,7 +122,7 @@
                 margin: 0; 
                 padding: 0;
                 width: 40mm; 
-                height: 25mm; 
+                height: 10mm; 
             }
             .barcode-container {
                 width: 100%; 
