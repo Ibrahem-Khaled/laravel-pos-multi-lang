@@ -105,59 +105,68 @@
 
             // طباعة الباركود
             $(document).on('click', '.btn-print-barcode', function() {
-                var barcode = $(this).data('barcode');
-                var name = $(this).data('name');
-                var price = $(this).closest('tr').find('td:eq(5)')
-            .text(); // الحصول على السعر من العمود المناسب
+                var barcode = $(this).data('barcode'); // الباركود
+                var name = $(this).data('name'); // اسم المنتج
+                var price = $(this).closest('tr').find('td:eq(5)').text(); // السعر من العمود المناسب
 
                 // فتح نافذة الطباعة
-                var printWindow = window.open('', '', 'width=400,height=250'); // أبعاد النافذة
+                var printWindow = window.open('', '', 'width=400,height=250'); // أبعاد النافذة بالبكسل
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
                     `<style>
-                        @page { margin: 0; } /* إزالة الهوامش الافتراضية */
-                        body { 
-                            font-family: Arial, sans-serif; 
-                            text-align: center; 
-                            margin: 0; 
-                            padding: 0;
-                            width: 40mm; 
-                            height: 25mm; 
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
-                        .barcode-container {
-                            width: 100%; 
-                            height: 100%; 
-                            display: flex; 
-                            flex-direction: column; 
-                            justify-content: center; 
-                            align-items: center; 
-                            text-align: center;
-                            box-sizing: border-box;
-                            padding: 2mm; /* إضافة مسافة داخلية */
-                        }
-                        h2, p { 
-                            margin: 0; 
-                            font-size: 8px; /* تصغير النص ليتناسب مع الحجم */
-                        }
-                        svg {
-                            margin-top: 3px; 
-                        }
-                    </style>`
+                    @page { 
+                        size: 40mm 25mm; /* تحديد حجم الورقة للطابعة */
+                        margin: 0; /* إزالة الهوامش */
+                    }
+                    body { 
+                        font-family: Arial, sans-serif; 
+                        text-align: center; 
+                        margin: 0; 
+                        padding: 0; 
+                        display: flex; 
+                        justify-content: center; 
+                        align-items: center; 
+                        width: 100%; 
+                        height: 100%;
+                        overflow: hidden;
+                    }
+                    .barcode-container {
+                        width: 100%; 
+                        height: 100%; 
+                        display: flex; 
+                        flex-direction: column; 
+                        justify-content: center; 
+                        align-items: center; 
+                        box-sizing: border-box;
+                    }
+                    h2 {
+                        margin: 0; 
+                        font-size: 10px; /* حجم خط اسم المنتج */
+                        text-align: center;
+                    }
+                    p {
+                        margin: 0; 
+                        font-size: 9px; /* حجم خط السعر */
+                        text-align: center;
+                    }
+                    svg {
+                        margin-top: 2px;
+                        width: 100%; 
+                        height: auto;
+                    }
+                </style>`
                 );
                 printWindow.document.write('</head><body>');
                 printWindow.document.write('<div class="barcode-container">');
-                printWindow.document.write('<h2>' + name + '</h2>');
-                printWindow.document.write('<p>Price: ' + price + '</p>');
-                printWindow.document.write('<svg id="barcode"></svg>');
+                printWindow.document.write('<h2>' + name + '</h2>'); // اسم المنتج
+                printWindow.document.write('<p>Price: ' + price + '</p>'); // السعر
+                printWindow.document.write('<svg id="barcode"></svg>'); // مكان الباركود
                 printWindow.document.write('</div>');
                 printWindow.document.write(
                     '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>'
                 );
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 1, height: 30, fontSize: 8 });<\/script>');
+                    '", { width: 1.5, height: 30, fontSize: 8 });<\/script>'); // توليد الباركود
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
