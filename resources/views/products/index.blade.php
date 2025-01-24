@@ -129,7 +129,7 @@
                 );
                 printWindow.document.write('<svg id="barcode" class="barcode-svg"></svg>');
                 printWindow.document.write('<script>JsBarcode("#barcode", "' + barcode +
-                    '", { width: 1, height: 30, fontSize: 10 });<\/script>');
+                    '", { width: 1, height: 22, fontSize: 10 });<\/script>');
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
