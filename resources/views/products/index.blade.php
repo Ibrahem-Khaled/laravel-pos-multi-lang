@@ -111,18 +111,18 @@
             .text(); // الحصول على السعر من العمود المناسب
 
                 // فتح نافذة الطباعة بمقاسات مناسبة
-                var printWindow = window.open('', '', 'width=400,height=200'); // الأبعاد بوحدة البكسل
+                var printWindow = window.open('', '', 'width=400,height=100'); // الأبعاد بوحدة البكسل
                 printWindow.document.write('<html><head><title>Print Barcode</title>');
                 printWindow.document.write(
                     `<style>
-            @page { margin: 0; } /* إزالة الهوامش الافتراضية */
+            @page { margin-left: 10px; } /* إزالة الهوامش الافتراضية */
             body { 
                 font-family: Arial, sans-serif; 
                 text-align: center; 
                 margin: 0; 
                 padding: 0;
                 width: 40mm; 
-                height: 10mm; 
+                height: 25mm; 
             }
             .barcode-container {
                 width: 100%; 
