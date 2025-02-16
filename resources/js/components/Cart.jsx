@@ -15,6 +15,7 @@ const Cart = () => {
     const [customerId, setCustomerId] = useState("");
     const [systemInvoiceNumber, setSystemInvoiceNumber] = useState("");
     const [translations, setTranslations] = useState({});
+    const [amount, setAmount] = useState("");
 
     // إنشاء مرجع لعنصر الطباعة
     const contentRef = useRef(null);
@@ -156,30 +157,22 @@ const Cart = () => {
         }
     };
 
-    const handleClickSubmit = () => {
-        Swal.fire({
-            title: translations["received_amount"],
-            input: "text",
-            inputValue: getTotal(cart),
-            cancelButtonText: translations["cancel_pay"],
-            showCancelButton: true,
-            confirmButtonText: translations["confirm_pay"],
-            showLoaderOnConfirm: true,
-            preConfirm: (amount) => {
-                return axios
-                    .post("/admin/orders", {
-                        customer_id: customerId,
-                        amount,
-                    })
-                    .then(() => {
-                        loadCart();
-                    })
-                    .catch((err) => {
-                        Swal.showValidationMessage(err.response?.data?.message || "Error occurred");
-                    });
-            },
-            allowOutsideClick: () => !Swal.isLoading(),
-        });
+    const handleClickSubmit = async () => {
+        if (!amount) {
+            Swal.fire("Error!", translations["amount_required"] || "Amount is required", "error");
+            return;
+        }
+
+        try {
+            await axios.post("/admin/orders", {
+                customer_id: customerId,
+                amount,
+            });
+            handlePrint(); // طباعة الفاتورة بعد الدفع
+            loadCart();
+        } catch (err) {
+            Swal.fire("Error!", err.response?.data?.message || "Error occurred", "error");
+        }
     };
 
     return (
@@ -224,9 +217,6 @@ const Cart = () => {
                             <p>
                                 <strong>{translations["invoice_number"] || "رقم الفاتورة"}:</strong> #{systemInvoiceNumber}
                             </p>
-                            {/* <p>
-                                <strong>{translations["location_number"] || "الفرع"}:</strong> الفرع 1
-                            </p> */}
                             <p>
                                 <strong>{translations["address"] || "العنوان"}:</strong> ٨٨ شارع عثمان بن عفان ميدان تريومف
                             </p>
@@ -272,6 +262,12 @@ const Cart = () => {
                             {window.APP.currency_symbol} {getTotal(cart)}
                         </div>
 
+                        {/* السعر بعد الخصم */}
+                        <div className="total-section text-center" style={{ marginTop: "15px", fontSize: "18px" }}>
+                            <strong>{translations["total_after_discount"] || "السعر بعد الخصم"}: </strong>
+                            {window.APP.currency_symbol} {amount}
+                        </div>
+
                         {/* رسالة الفاتورة */}
                         <div className="footer-message text-center mt-2">
                             <p>{translations["return_policy"] || "يمكنك الاستبدال والإرجاع خلال 14 يومًا."}</p>
@@ -279,11 +275,21 @@ const Cart = () => {
                     </div>
                 </div>
 
-
                 <div className="row">
                     <div className="col">{translations["total"]}:</div>
                     <div className="col text-right">
                         {window.APP.currency_symbol} {getTotal(cart)}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder={translations["amount"] || "المبلغ"}
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                        />
                     </div>
                 </div>
                 <div className="row">
